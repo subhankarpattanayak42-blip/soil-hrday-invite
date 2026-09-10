@@ -3,242 +3,516 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HR Day — The Future of Work · Session Invite</title>
+<title>HR Day · The Future of Work — Skills, AI &amp; the New Organisation</title>
 <style>
   :root{
-    --bg:#0d1021;
-    --bg2:#151a38;
-    --surface:rgba(255,255,255,.045);
-    --surface2:rgba(255,255,255,.07);
-    --border:rgba(255,255,255,.12);
-    --ink:#f4f5fb;
-    --muted:#a7adc8;
-    --accent:#5b8cff;
-    --accent2:#8b5bff;
-    --green:#3ddc97;
-    --amber:#ffb454;
+    --bg:#0a0e1a;
+    --bg2:#0f1526;
+    --surface:rgba(255,255,255,.04);
+    --border:rgba(255,255,255,.10);
+    --ink:#edf0f9;
+    --muted:#9aa3c2;
+    --ai:#5b8cff;        /* AI / technology */
+    --ai-dim:#5b8cff55;
+    --human:#3ddc97;     /* human skills */
+    --human-dim:#3ddc9744;
+    --warn:#ffb454;
     --rose:#ff7b8a;
-    --radius:22px;
-    --shadow:0 30px 80px -30px rgba(0,0,0,.65);
+    --shadow:0 30px 80px -30px rgba(0,0,0,.7);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;
-    color:var(--ink);
     background:
-      radial-gradient(1100px 600px at 12% -10%, rgba(91,140,255,.28), transparent 60%),
-      radial-gradient(900px 550px at 100% 0%, rgba(139,91,255,.24), transparent 55%),
-      radial-gradient(900px 700px at 50% 120%, rgba(45,212,191,.12), transparent 60%),
+      radial-gradient(1200px 700px at 12% -10%, rgba(91,140,255,.16), transparent 55%),
+      radial-gradient(1000px 600px at 100% 0%, rgba(61,220,151,.10), transparent 55%),
       linear-gradient(160deg, var(--bg), var(--bg2));
-    min-height:100vh;
-    line-height:1.55;
+    color:var(--ink);
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
+    overflow:hidden;
   }
-  .wrap{max-width:960px;margin:0 auto;padding:56px 24px 80px}
-  .grain{position:fixed;inset:0;pointer-events:none;opacity:.04;mix-blend-mode:overlay;
-    background-image:radial-gradient(#fff 1px, transparent 1px);background-size:3px 3px;z-index:1}
+  /* ===== progress + rail ===== */
+  #prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--ai),var(--human));
+    width:var(--p,0%);z-index:60;transition:width .25s ease}
+  #dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:50}
+  #dots button{width:9px;height:9px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
+    background:transparent;cursor:pointer;padding:0;transition:all .18s}
+  #dots button.active{background:linear-gradient(135deg,var(--ai),var(--human));border-color:transparent;transform:scale(1.35)}
+  #counter{position:fixed;bottom:16px;right:20px;font-size:12.5px;color:var(--muted);letter-spacing:.08em;z-index:50;font-variant-numeric:tabular-nums}
 
-  /* top tag */
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--muted);border:1px solid var(--border);
-    background:var(--surface);padding:7px 14px;border-radius:999px;font-weight:600;margin-bottom:22px}
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(61,220,151,.18)}
+  /* ===== deck ===== */
+  .deck{position:fixed;inset:0;cursor:pointer}
+  .slide{position:absolute;inset:0;display:none;padding:64px 80px 70px;
+    flex-direction:column;justify-content:center;overflow-y:auto;cursor:default}
+  .slide.active{display:flex}
+  .slide.active{animation:fade .45s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media(max-width:760px){.slide{padding:48px 24px 60px}}
 
-  header{margin-bottom:40px}
-  h1{font-size:clamp(30px,5vw,48px);line-height:1.08;font-weight:800;letter-spacing:-.02em;max-width:16em}
-  h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .subhead{margin-top:16px;color:var(--muted);font-size:17px;max-width:34em}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:18px}
+  .eyebrow .bar{width:22px;height:2px;background:linear-gradient(90deg,var(--ai),var(--human))}
+  h1{font-size:clamp(34px,5.6vw,60px);line-height:1.05;font-weight:800;letter-spacing:-.02em;max-width:15em}
+  h2{font-size:clamp(28px,4vw,44px);line-height:1.12;font-weight:800;letter-spacing:-.015em;max-width:16em;margin-bottom:26px}
+  .lede{color:var(--muted);font-size:clamp(17px,2vw,21px);max-width:34em;line-height:1.6;margin-top:20px}
+  .lede b{color:var(--ink);font-weight:600}
+  .ai{color:var(--ai)} .human{color:var(--human)} .warn{color:var(--warn)} .rose{color:var(--rose)}
+  .grad{background:linear-gradient(90deg,var(--ai),var(--human));-webkit-background-clip:text;background-clip:text;color:transparent}
 
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ai);font-weight:700;margin-bottom:16px}
+  .kicker.h{color:var(--human)}
 
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-    padding:26px;backdrop-filter:blur(8px);position:relative;overflow:hidden}
-  .card::after{content:"";position:absolute;inset:0;border-radius:inherit;
-    background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 40%);pointer-events:none}
-  .card h3{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:16px}
-  .meta-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
-  .meta-row:last-of-type{border-bottom:none}
-  .k{color:var(--muted);font-size:13.5px;width:120px;flex:none}
-  .v{font-weight:600;font-size:15.5px}
-  .v small{display:block;color:var(--muted);font-weight:400;font-size:12.5px}
-  .icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;
-    background:linear-gradient(135deg,rgba(91,140,255,.25),rgba(139,91,255,.25));border:1px solid var(--border)}
-  .icon svg{width:19px;height:19px;stroke:var(--accent)}
+  /* big stat */
+  .stat-hero{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-top:8px}
+  .stat-hero .n{font-size:clamp(58px,9vw,110px);font-weight:800;letter-spacing:-.03em;
+    background:linear-gradient(90deg,var(--ai),var(--human));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .stat-hero .l{font-size:clamp(16px,1.8vw,22px);color:var(--muted);max-width:16em}
 
-  /* RSVP selector */
-  .rsvp-label{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:30px 0 14px}
-  .rsvp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:560px){.rsvp{grid-template-columns:1fr}}
-  .option{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:22px;
-    cursor:pointer;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s;position:relative}
-  .option:hover{transform:translateY(-3px);border-color:rgba(91,140,255,.55)}
-  .option.selected{border-color:var(--accent);background:linear-gradient(150deg,rgba(91,140,255,.18),rgba(139,91,255,.14));box-shadow:0 0 0 3px rgba(91,140,255,.18)}
-  .option .radio{position:absolute;top:20px;right:20px;width:22px;height:22px;border-radius:50%;
-    border:2px solid var(--border);display:grid;place-items:center}
-  .option.selected .radio{border-color:var(--accent)}
-  .option.selected .radio::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--accent)}
-  .option .t{font-weight:700;font-size:16.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-  .option .d{color:var(--muted);font-size:13.5px}
-  .badge{font-size:11px;padding:3px 9px;border-radius:999px;background:rgba(61,220,151,.16);color:var(--green);font-weight:700;letter-spacing:.02em}
+  /* grid cards */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:6px}
+  @media(max-width:900px){.cards{grid-template-columns:1fr}}
+  .cardo{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+  .cardo::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.05),transparent 40%);pointer-events:none}
+  .cardo .n{font-size:30px;font-weight:800;margin-bottom:8px}
+  .cardo h4{font-size:16px;font-weight:700;margin-bottom:9px}
+  .cardo p{color:var(--muted);font-size:14px;line-height:1.55}
 
-  /* confirm button */
-  .confirm{width:100%;margin-top:26px;border:none;cursor:pointer;font-size:16.5px;font-weight:700;color:#0d1021;
-    padding:17px;border-radius:16px;font-family:inherit;
-    background:linear-gradient(90deg,var(--accent),var(--accent2));
-    box-shadow:0 14px 34px -10px rgba(91,140,255,.6);transition:transform .15s,filter .15s;
-    opacity:0;pointer-events:none;transform:translateY(8px)}
-  .confirm.enabled{opacity:1;pointer-events:auto;transform:none}
-  .confirm:hover{filter:brightness(1.06);transform:translateY(-2px)}
-  .confirm:active{transform:translateY(0)}
-  .confirm:disabled{opacity:.5;cursor:not-allowed}
+  /* rows / 2-col layout */
+  .cols{display:grid;grid-template-columns:1.05fr 1fr;gap:34px;align-items:start}
+  @media(max-width:820px){.cols{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px}
+  .panel h4{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .panel ul{list-style:none}
+  .panel li{padding:9px 0;border-bottom:1px solid var(--border);font-size:15px;display:flex;gap:10px;line-height:1.45}
+  .panel li:last-child{border-bottom:none}
+  .panel li .m{flex:none;font-weight:800}
+  .panel li small{display:block;color:var(--muted);font-size:12.5px}
 
-  /* success panel */
-  .success{display:none;text-align:center;padding:50px 30px;background:var(--surface);border:1px solid var(--border);
-    border-radius:var(--radius);margin-top:34px}
-  .success.show{display:block;animation:fadeUp .5s ease}
-  .check{width:70px;height:70px;border-radius:50%;margin:0 auto 20px;display:grid;place-items:center;
-    background:radial-gradient(circle,rgba(61,220,151,.3),rgba(61,220,151,.08));border:1.5px solid rgba(61,220,151,.5)}
-  .check svg{width:34px;height:34px;stroke:var(--green);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
-  .success h2{font-size:26px;margin-bottom:10px}
-  .success p{color:var(--muted);max-width:40em;margin:0 auto 26px}
+  /* skill bars */
+  .bar-row{margin-bottom:20px}
+  .bar-row .lb{display:flex;justify-content:space-between;margin-bottom:7px;font-size:14.5px}
+  .bar-row .lb .pc{font-weight:800;font-variant-numeric:tabular-nums}
+  .bar{height:13px;border-radius:8px;background:rgba(255,255,255,.07);overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:8px;width:0;transition:width 1s ease}
 
-  .countdown{display:flex;gap:14px;justify-content:center;margin-top:8px}
-  .cd{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:14px 18px;min-width:86px}
-  .cd b{font-size:28px;font-variant-numeric:tabular-nums;display:block;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .cd span{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  /* quiz */
+  .quiz,.myth{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:30px;max-width:680px}
+  .quiz .q{font-size:22px;font-weight:700;margin-bottom:22px}
+  .quiz .opts{display:grid;gap:12px}
+  .quiz button.opt{background:var(--surface);border:1.5px solid var(--border);color:var(--ink);text-align:left;
+    padding:15px 18px;border-radius:13px;font-size:16px;font-family:inherit;cursor:pointer;transition:all .15s}
+  .quiz button.opt:hover{border-color:var(--ai);transform:translateX(4px)}
+  .quiz button.opt.correct{border-color:var(--human);background:rgba(61,220,151,.14);color:var(--human);font-weight:700}
+  .quiz button.opt.wrong{border-color:var(--rose);background:rgba(255,123,138,.12);color:var(--rose)}
+  .quiz .reveal{margin-top:18px;font-size:15px;color:var(--muted);min-height:24px;line-height:1.5}
+  .quiz .reveal b{color:var(--ink)}
 
-  footer{margin-top:44px;text-align:center;color:var(--muted);font-size:13px}
-  footer b{color:var(--ink);font-weight:600}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(91,140,255,.35)}50%{box-shadow:0 0 0 12px rgba(91,140,255,0)}}
-  .session-tag{animation:pulse 2.4s infinite;background:linear-gradient(90deg,var(--accent),var(--accent2));
-    color:#0d1021;font-weight:800;padding:9px 16px;border-radius:999px;font-size:14px;display:inline-flex;align-items:center;gap:8px}
+  /* myth grid */
+  .myth-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.myth-grid{grid-template-columns:1fr}}
+  .myth-card{border:1.5px solid var(--border);border-radius:16px;padding:20px;background:var(--surface)}
+  .myth-card .tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;display:inline-block;margin-bottom:10px}
+  .tag.m{background:rgba(255,123,138,.14);color:var(--rose)}
+  .tag.t{background:rgba(61,220,151,.14);color:var(--human)}
+  .myth-card h4{font-size:15.5px;margin-bottom:8px}
+  .myth-card p{color:var(--muted);font-size:13.5px;line-height:1.55}
+
+  /* divider / act slides */
+  .act-num{font-size:clamp(90px,16vw,190px);font-weight:800;line-height:.9;letter-spacing:-.05em;
+    background:linear-gradient(135deg,var(--ai),var(--human));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.25}
+  .act-title{font-size:clamp(30px,5vw,56px);font-weight:800;max-width:14em;line-height:1.08;margin:8px 0 14px}
+  .act-sub{color:var(--muted);font-size:18px;max-width:30em}
+
+  /* pacing table */
+  .pacing{display:grid;gap:12px;max-width:700px}
+  .p-row{display:grid;grid-template-columns:120px 1fr auto;gap:18px;align-items:center;
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px}
+  @media(max-width:640px){.p-row{grid-template-columns:1fr;gap:4px}}
+  .p-row .t{font-weight:800;font-size:13px;letter-spacing:.06em}
+  .p-row .d{color:var(--muted);font-size:14.5px}
+  .p-row .m{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ai)}
+
+  .foot-tag{position:absolute;bottom:22px;left:80px;font-size:12px;color:var(--muted);letter-spacing:.08em}
+  @media(max-width:760px){.foot-tag{left:24px}}
+  .pill{display:inline-flex;gap:7px;align-items:center;font-size:12.5px;padding:6px 13px;border-radius:999px;
+    border:1px solid var(--border);background:var(--surface);color:var(--muted);margin-right:8px}
+  .source{font-size:12px;color:var(--muted);margin-top:26px;opacity:.8}
+  .source b{color:var(--muted);font-weight:600}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  .hint{position:fixed;bottom:16px;left:20px;font-size:12px;color:#5a6380;letter-spacing:.06em;z-index:50}
 </style>
 </head>
 <body>
-<div class="grain"></div>
-<div class="wrap">
+<div id="prog"></div>
+<div id="dots"></div>
+<div id="counter"></div>
+<div class="hint">← → navigate &nbsp;·&nbsp; click to advance &nbsp;·&nbsp; Esc ↺</div>
 
-  <span class="eyebrow"><span class="dot"></span> SOIL · HR Day 2026</span>
+<div class="deck" id="deck">
+  <!-- custom click-to-advance handled in JS except on interactive slides -->
 
-  <header>
-    <span class="session-tag">📅 TOMORROW · 10:00–10:45 AM</span>
-    <h1 style="margin-top:18px">The Future of Work:<br><span class="grad">Skills, AI &amp; the New Organisation</span></h1>
-    <p class="subhead">Hi Misal Sir — we're delighted to have you with us as our guest speaker. A warmly-written invitation, ready for your RSVP below.</p>
-  </header>
-
-  <div class="grid">
-    <div class="card">
-      <h3>Session Details</h3>
-      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div><span class="k">Date</span><div class="v">Tomorrow <small>HR Day 2026</small></div></div></div>
-      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><div><span class="k">Time</span><div class="v">10:00 – 10:45 AM <small>45 minutes</small></div></div></div>
-      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div><div><span class="k">Venue</span><div class="v">SOIL, Gurgaon <small>Campus · HR Day</small></div></div></div>
-      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div><span class="k">Format</span><div class="v">Guest Talk</div></div></div>
+  <!-- ============ ACT 0 · TITLE ============ -->
+  <section class="slide">
+    <span class="eyebrow"><span class="bar"></span> HR Day 2026 · SOIL · Guest Talk</span>
+    <h1>The Future of Work:<br><span class="grad">Skills, AI &amp; the New Organisation</span></h1>
+    <p class="lede">We are living through a rewrite of how work gets done — not in decades, but in months. Over the next 45 minutes we'll unpack what's actually changing, which skills now matter most, and what shape the new organisation is taking.</p>
+    <div style="margin-top:34px;display:flex;flex-wrap:wrap;gap:10px">
+      <span class="pill">⏱ 45 min</span>
+      <span class="pill">👥 Human + AI teams</span>
+      <span class="pill">🧭 Future of Jobs 2025</span>
+      <span class="pill">📈 Making it real</span>
     </div>
+    <p class="foot-tag">Welcome · Misal Sir</p>
+  </section>
 
-    <div class="card">
-      <h3>Speaker · Misal Sir</h3>
-      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></div><div><span class="k">Role</span><div class="v">Guest Speaker</div></div></div>
-      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></div><div><span class="k">Hosted By</span><div class="v">Janak <small>Your Student SPOC</small></div></div></div>
-      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7"/></svg></div><div><span class="k">Status</span><div class="v"><span class="badge">Confirming</span></div></div></div>
-      <div style="margin-top:18px;color:var(--muted);font-size:13.5px;border-left:3px solid var(--accent);padding:4px 0 4px 14px">
-        "Looking forward to hosting you and hearing your take on skills, AI and the new organisation."
+  <section class="slide">
+    <div class="kicker">Why we're here</div>
+    <h2>Every organisation is asking the same three questions</h2>
+    <div class="cards" style="margin-top:10px">
+      <div class="cardo"><div class="n ai">1.</div><h4>Will <span class="ai">AI</span> take my role?</h4><p>Around <b>1.1 billion jobs</b> could be transformed by technology in the next decade. Rarely replaced whole — but every task mix will change.</p></div>
+      <div class="cardo"><div class="n human">2.</div><h4>Which <span class="human">skills</span> survive?</h4><p>Analytical thinking is now the #1 most-sought skill, and skills expire faster than HR models can update. The learner wins.</p></div>
+      <div class="cardo"><div class="n ai">3.</div><h4>What is the new <span class="ai">organisation</span>?</h4><p>Flatter, more fluid, skills-first — where humans lead and AI agents execute: creation through <i>orchestration, not substitution</i>.</p></div>
+      <div class="cardo"><div class="n human">4.</div><h4>Where does <span class="human">HR</span> stand?</h4><p>Today's HR leader becomes the <b>architect of this transition</b> — deciding who learns what, and how the new org assembles.</p></div>
+    </div>
+  </section>
+
+  <!-- divider -->
+  <section class="slide">
+    <div class="act-num">01</div>
+    <div class="act-title">The Shift</div>
+    <p class="act-sub">Why work — not just jobs — is being reengineered, and why this time feels different.</p>
+    <p class="foot-tag">Act 1 · ~6 min</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">The adoption curve</div>
+    <div class="stat-hero">
+      <div class="n">30% → 76%</div>
+    </div>
+    <p class="lede">of employees reported using AI at work in 2023 — that had jumped to <b>76% by 2025</b> (McKinsey). This is not a future scenario; the workforce is already using these tools daily, often faster than leadership realises.</p>
+    <p class="source"><b>Source:</b> McKinsey, "How AI is—and isn't—changing the future of work," 2025</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Scale of disruption</div>
+    <div class="stat-hero">
+      <div class="n">Up to 30%</div>
+      <div class="l">of current <b>work hours</b> could be automated by 2030 (McKinsey).</div>
+    </div>
+    <p class="lede" style="margin-top:26px">And AI &amp; information processing will affect <b>86% of businesses</b> by 2030 (WEF). The honest framing: it's mostly <b>tasks</b> being automated, not whole <b>jobs</b> disappearing — but that still redefines nearly every role.</p>
+    <p class="source"><b>Sources:</b> McKinsey on automation; WEF Future of Jobs Report 2025</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">The deeper truth</div>
+    <h2>Jobs won't vanish in one stroke.<br>They get <span class="grad">rewritten task by task</span>.</h2>
+    <div class="cols" style="margin-top:18px">
+      <div class="panel"><h4>What AI is freeing</h4><ul>
+        <li><span class="m human">−</span> Routine transactions, drafting, summarising, data sifting<div><small>speed &amp; volume that humans alone can't match</small></div></li>
+        <li><span class="m human">−</span> First-draft and pattern work<div><small>the "80% done" heavy lifting</small></div></li>
+      </ul></div>
+      <div class="panel"><h4>What stays human</h4><ul>
+        <li><span class="m ai">+</span> Judgement, context, trade-offs<div><small>deciding what's actually right, not just fast</small></div></li>
+        <li><span class="m ai">+</span> Empathy, relationships, accountability<div><small>the things clients and teams feel</small></div></li>
+      </ul></div>
+    </div>
+    <p class="source"><b>Frame:</b> "Human-led, AI-enabled" teams — the productivity gains come from orchestration.</p>
+  </section>
+
+  <!-- ============ ACT 2 · AI ============ -->
+  <section class="slide">
+    <div class="act-num">02</div>
+    <div class="act-title">AI: What's <span class="grad">Actually</span> Real</div>
+    <p class="act-sub">Agents, autonomy, and the shift from tools you ask to helpers that act.</p>
+    <p class="foot-tag">Act 2 · ~9 min</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">From tool to teammate</div>
+    <h2>AI is moving up the capability ladder</h2>
+    <p class="lede">It began as a <b>calculator</b> (you do the work), then a <b>copilot</b> (it drafts, you refine). The next step is an <b>agent</b> — a helper with "hands" that plans and acts on your behalf.</p>
+    <div class="cards" style="margin-top:26px">
+      <div class="cardo"><div class="n human" style="font-size:20px">Assistant</div><h4 style="font-size:14px">You ask · it answers</h4><p>Search, summarise, generate — output on demand. The human is fully in the loop.</p></div>
+      <div class="cardo"><div class="n grad" style="font-size:20px">Copilot</div><h4 style="font-size:14px">You guide · it drafts</h4><p>AI proposes, human decides. The dominant pattern of 2024–25 talent workflows.</p></div>
+      <div class="cardo"><div class="n ai" style="font-size:20px">Agent</div><h4 style="font-size:14px">You set goal · it acts</h4><p>Autonomy over defined tasks: schedules, triages, orchestrates tools — with guardrails.</p></div>
+      <div class="cardo"><div class="n ai" style="font-size:20px">Agent teams</div><h4 style="font-size:14px">Goals · it manages</h4><p>Multiple agents per human, coordinated to deliver outcomes — the frontier today.</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Modernise vs reimagine</div>
+    <h2>The trap: layering AI onto <span class="rose">old work</span></h2>
+    <p class="lede">The safe, common mistake is to bolt AI onto yesterday's processes and call it transformation. Research is blunt: <b>AI creates more jobs than it displaces only if organisations deliberately redesign work</b> — not just add the tool.</p>
+    <div class="cols" style="margin-top:22px">
+      <div class="panel"><h4>Layering (fails)</h4><ul>
+        <li><span class="m rose">✗</span> Same roles, same hand-offs<div><small>AI just accelerates 20th-century structure</small></div></li>
+        <li><span class="m rose">✗</span> Productivity drift<div><small>14x AI investments underdeliver</small></div></li>
+      </ul></div>
+      <div class="panel"><h4>Redesigning (compounds)</h4><ul>
+        <li><span class="m human">✓</span> Rebuild the workflow<div><small>humans + agents each do what they do best</small></div></li>
+        <li><span class="m human">✓</span> Skills-first reskilling<div><small>builts learning into the org, not as a course</small></div></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT 3 · SKILLS ============ -->
+  <section class="slide">
+    <div class="act-num">03</div>
+    <div class="act-title">Skills: The <span class="grad">New Currency</span></div>
+    <p class="act-sub">When skills expire faster than job descriptions, the educated are those who keep learning.</p>
+    <p class="foot-tag">Act 3 · ~10 min</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">WEF Future of Jobs 2025</div>
+    <div class="stat-hero">
+      <div class="n">39%</div>
+      <div class="l">of core skills are expected to <b>change by 2030</b>.</div>
+    </div>
+    <p class="lede">Survey of <b>1,000+ employers</b> representing <b>14M+ workers</b> across 22 industries and 55 economies. The headline: skills are now the <b>currency of resilience</b> — the organisations that grow people outperform those that only buy technology.</p>
+    <p class="source"><b>Source:</b> World Economic Forum, Future of Jobs Report 2025</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">What's rising</div>
+    <h2>Top skills employers rank as <span class="grad">rising in importance</span></h2>
+    <div class="bar-row">
+      <div class="lb"><span>Analytical &amp; critical thinking</span><span class="pc ai">#1</span></div>
+      <div class="bar"><i data-w="88" style="background:linear-gradient(90deg,var(--ai),var(--human))"></i></div>
+    </div>
+    <div class="bar-row">
+      <div class="lb"><span>AI &amp; big data</span><span class="pc ai">#2</span></div>
+      <div class="bar"><i data-w="80" style="background:linear-gradient(90deg,var(--ai),var(--human))"></i></div>
+    </div>
+    <div class="bar-row">
+      <div class="lb"><span>Creativity &amp; innovation</span><span class="pc human">#3</span></div>
+      <div class="bar"><i data-w="70" style="background:linear-gradient(90deg,var(--human),var(--ai))"></i></div>
+    </div>
+    <div class="bar-row">
+      <div class="lb"><span>Leadership &amp; social influence</span><span class="pc human">#4</span></div>
+      <div class="bar"><i data-w="62" style="background:linear-gradient(90deg,var(--human),var(--ai))"></i></div>
+    </div>
+    <div class="bar-row">
+      <div class="lb"><span>Resilience, flexibility &amp; agility</span><span class="pc human">#5</span></div>
+      <div class="bar"><i data-w="54" style="background:linear-gradient(90deg,var(--human),var(--ai))"></i></div>
+    </div>
+    <p class="source"><b>Source:</b> WEF Future of Jobs Report 2025 — share of employers citing each skill as rising.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Technical + human</div>
+    <h2>The winning mix is <span class="grad">T-shaped</span></h2>
+    <div class="cols" style="margin-top:16px">
+      <div class="panel"><h4 class="ai">→ Depth · technical</h4><ul>
+        <li><span class="m ai">1</span> Working with AI/data<div><small>prompting, AI literacy, data sense</small></div></li>
+        <li><span class="m ai">2</span> Basic algorithm understanding<div><small>not coding — understanding logic</small></div></li>
+        <li><span class="m ai">3</span> Domain expertise<div><small>knowing the business you're in</small></div></li>
+      </ul></div>
+      <div class="panel"><h4 class="human">— Breadth · human</h4><ul>
+        <li><span class="m human">1</span> Empathy &amp; emotional intelligence<div><small>hardest to automate, rising in demand</small></div></li>
+        <li><span class="m human">2</span> Communication &amp; collaboration<div><small>consistently the #1 prized skill</small></div></li>
+        <li><span class="m human">3</span> Judgement &amp; ethics<div><small>owning the decision, not the tool</small></div></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">The mandate</div>
+    <h2>Reskilling is now a <span class="human">business obligation</span></h2>
+    <div class="stat-hero">
+      <div class="n">85%</div>
+      <div class="l">of people believe businesses are <b>obligated to train or reskill</b> employees so people and societies stay competitive.</div>
+    </div>
+    <p class="lede" style="margin-top:24px">IBM puts the gap bluntly: executives expect <b>~53% of their workforce</b> to need upskilling to perform current roles more effectively. Skills now expire faster than traditional models can accommodate — many roles change within <b>months, not years</b>.</p>
+    <p class="source"><b>Sources:</b> McKinsey 2025; IBM Institute for Business Value</p>
+  </section>
+
+  <!-- ============ ACT 4 · ORGANISATION ============ -->
+  <section class="slide">
+    <div class="act-num">04</div>
+    <div class="act-title">The New <span class="grad">Organisation</span></div>
+    <p class="act-sub">Skills-first, fluid teams, and infrastructure for human + AI to work as one.</p>
+    <p class="foot-tag">Act 4 · ~10 min</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Structural change</div>
+    <h2>From <span class="rose">boxes &amp; lines</span> to <span class="human">teams that assemble</span></h2>
+    <div class="cols" style="margin-top:16px">
+      <div class="panel"><h4>Old org (functional)</h4><ul>
+        <li><span class="m rose">◼</span> Static hierarchy &amp; silos<div><small>decision speed governed by layer count</small></div></li>
+        <li><span class="m rose">◼</span> Roles defined by job titles<div><small>not by what someone can actually do</small></div></li>
+        <li><span class="m rose">◼</span> People assigned, not matched<div><small>talent sits where the chart puts it</small></div></li>
+      </ul></div>
+      <div class="panel"><h4>New org (skills-first)</h4><ul>
+        <li><span class="m human">◼</span> Flatter, networked, fluid<div><small>"team of teams," reshaped around work</small></div></li>
+        <li><span class="m human">◼</span> Skills as the spine<div><small>roles are snapshots of live capability</small></div></li>
+        <li><span class="m human">◼</span> Talent marketplaces<div><small>people pulled to projects by what they do</small></div></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Operating model</div>
+    <h2>Human-led, AI-enabled teams</h2>
+    <p class="lede">The winning pattern isn't a robot takeover or a human-only world. It's <b>orchestration</b>: humans own goals and judgement; AI agents handle volume, speed and pattern work. Productivity compounds when the two are deliberately designed together, across <b>customer experience, ops and R&amp;D</b>.</p>
+    <div class="cards" style="margin-top:26px">
+      <div class="cardo"><div class="n human" style="font-size:22px">Humans</div><h4 style="font-size:14px">Direction &amp; accountability</h4><p>Set the goal, judge the output, own the outcome, keep relationships.</p></div>
+      <div class="cardo"><div class="n ai" style="font-size:22px">AI agents</div><h4 style="font-size:14px">Execution &amp; scale</h4><p>Draft, analyse, schedule, triage — orchestrated within guardrails.</p></div>
+      <div class="cardo"><div class="n grad" style="font-size:22px">Teams</div><h4 style="font-size:14px">Assembled by objective</h4><p>Fluid pods formed around outcomes, dissolved when the work is done.</p></div>
+      <div class="cardo"><div class="n human" style="font-size:22px">HR</div><h4 style="font-size:14px">The architect</h4><p>Builds the skills data, the marketplaces, and the learning loop that makes it work.</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">What HR runs</div>
+    <h2>The new HR operating system</h2>
+    <div class="cards" style="margin-top:8px">
+      <div class="cardo"><div class="n grad" style="font-size:22px">1</div><h4>Skills intelligence</h4><p>Treat learning data like business intelligence — skills inventory, uplift rate, adoption depth.</p></div>
+      <div class="cardo"><div class="n grad" style="font-size:22px">2</div><h4>Agile talent marketplaces</h4><p>Match people to work by live capability, not title — internal mobility as the default.</p></div>
+      <div class="cardo"><div class="n grad" style="font-size:22px">3</div><h4>Continuous, embedded learning</h4><p>Learning inside the workflow, not a once-a-year course. Short-cycle, measurable.</p></div>
+      <div class="cardo"><div class="n grad" style="font-size:22px">4</div><h4>Human-first design</h4><p>AI frees time; HR reinvests it in wellbeing, purpose and meaningful work.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT 5 · ACTION ============ -->
+  <section class="slide">
+    <div class="act-num">05</div>
+    <div class="act-title">So What Do We <span class="grad">Do</span>?</div>
+    <p class="act-sub">A personal, practical close — plus a myth-busting challenge.</p>
+    <p class="foot-tag">Act 5 · ~10 min</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Interactive · quiz</div>
+    <div class="quiz">
+      <div class="q">Which is the single largest driver reshaping jobs through 2030?</div>
+      <div class="opts">
+        <button class="opt" data-correct>Technological change (AI &amp; information processing)</button>
+        <button class="opt">Demographic shifts alone</button>
+        <button class="opt">The green transition only</button>
+        <button class="opt">Geoeconomic fragmentation</button>
       </div>
+      <div class="reveal"></div>
     </div>
-  </div>
+  </section>
 
-  <div class="rsvp-label">Travel &amp; Deck · how should we plan?</div>
-  <div class="rsvp">
-    <div class="option" data-val="cab">
-      <div class="radio"></div>
-      <div class="t">🚕 Arrange a cab</div>
-      <div class="d">We'll book and coordinate your pickup to campus — sit back and enjoy the ride.</div>
+  <section class="slide">
+    <div class="kicker">Myth vs fact</div>
+    <h2 style="font-size:30px;margin-bottom:20px">Cut through the noise</h2>
+    <div class="myth-grid">
+      <div class="myth-card"><span class="tag m">Myth</span><h4>"AI will replace entire jobs in one go."</h4><p>Mostly <b>tasks</b> are automated; roles get redesigned task-by-task. The risk is refusing to change, not the tool itself.</p></div>
+      <div class="myth-card"><span class="tag t">Fact</span><h4>Adoption is already huge.</h4><p>Employee AI use jumped from <b>30% to 76%</b> (2023→25). The workforce is ahead of most org charts.</p></div>
+      <div class="myth-card"><span class="tag m">Myth</span><h4>"Soft skills don't matter in an AI era."</h4><p>Hardly — <b>empathy, communication &amp; judgement</b> are the hardest things to automate and are rising in demand.</p></div>
+      <div class="myth-card"><span class="tag t">Fact</span><h4>"Buying AI is enough."</h4><p>AI underdelivers without <b>work redesign and reskilling</b>. Only ~1 in 50 AI investments delivers full value on its own.</p></div>
     </div>
-    <div class="option" data-val="drive">
-      <div class="radio"></div>
-      <div class="t">🚗 I'll drive myself <span class="badge">Reimbursed</span></div>
-      <div class="d">You'll drive down on your own — we'll reimburse your travel. Just let us know.</div>
-    </div>
-  </div>
+    <p class="source"><b>Sources:</b> McKinsey; WEF Future of Jobs 2025; PwC Global Workforce Survey.</p>
+  </section>
 
-  <div class="rsvp-label">Will you share your PPT beforehand?</div>
-  <div class="rsvp" style="grid-template-columns:1fr 1fr">
-    <div class="option" data-val="ppt-yes">
-      <div class="radio"></div>
-      <div class="t">📊 Yes, will share</div>
-      <div class="d">Great — we'll set it up before the session starts.</div>
+  <section class="slide">
+    <div class="kicker">Your playbook</div>
+    <h2>Five moves for any organisation</h2>
+    <div class="cards" style="margin-top:8px">
+      <div class="cardo"><div class="n grad">01</div><h4>Audit tasks, not just roles</h4><p>Map which tasks AI can own and which need humans — before redesigning jobs.</p></div>
+      <div class="cardo"><div class="n grad">02</div><h4>Build AI literacy for all</h4><p>From senior leaders to entry-level: comfort with AI is now a baseline, not a speciality.</p></div>
+      <div class="cardo"><div class="n grad">03</div><h4>Make skills visible</h4><p>Inventories, marketplaces and data — treat capability as an asset you can route.</p></div>
+      <div class="cardo"><div class="n grad">04</div><h4>Reskill deliberately</h4><p>Short-cycle, measurable, embedded in work — not a once-a-year training calendar.</p></div>
+      <div class="cardo"><div class="n grad">05</div><h4>Keep humans central</h4><p>Accountability, empathy and purpose stay human. Design the org around that.</p></div>
     </div>
-    <div class="option" data-val="ppt-no">
-      <div class="radio"></div>
-      <div class="t">🎤 No deck / live</div>
-      <div class="d">No problem — we'll arrange a mic and screen for a live session.</div>
+  </section>
+
+  <!-- pacing -->
+  <section class="slide">
+    <div class="kicker">For the presenter</div>
+    <h2 style="font-size:30px;margin-bottom:22px">Suggested 45-minute pacing</h2>
+    <div class="pacing">
+      <div class="p-row"><div class="t">OPEN</div><div class="d">Welcome, the three big questions, title</div><div class="m">0–4 min</div></div>
+      <div class="p-row"><div class="t">ACT 1</div><div class="d">The shift — adoption, automation scale, "rewritten task by task"</div><div class="m">4–10</div></div>
+      <div class="p-row"><div class="t">ACT 2</div><div class="d">AI reality — assistant→agent ladder, redesign vs layer trap</div><div class="m">10–19</div></div>
+      <div class="p-row"><div class="t">ACT 3</div><div class="d">Skills — 39%, top 5, T-shape, reskilling mandate</div><div class="m">19–29</div></div>
+      <div class="p-row"><div class="t">ACT 4</div><div class="d">New organisation — skills-first, human-led/AI-enabled, HR as architect</div><div class="m">29–39</div></div>
+      <div class="p-row"><div class="t">ACT 5</div><div class="d">Quiz, myth-vs-fact, five-move playbook, Q&amp;A</div><div class="m">39–45</div></div>
     </div>
-  </div>
+  </section>
 
-  <button class="confirm" id="confirmBtn">Send RSVP to Janak →</button>
-
-  <div class="success" id="success">
-    <div class="check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-    <h2>RSVP Received — thank you, Misal Sir!</h2>
-    <div class="countdown">
-      <div class="cd"><b id="cd-d">--</b><span>Days</span></div>
-      <div class="cd"><b id="cd-h">--</b><span>Hrs</span></div>
-      <div class="cd"><b id="cd-m">--</b><span>Min</span></div>
+  <!-- close -->
+  <section class="slide">
+    <div class="kicker">Thank you</div>
+    <h1>Work is being <span class="grad">reengineered</span>.<br>Lead the rewrite.</h1>
+    <p class="lede">The organisations — and people — that win this era are not the ones with the cleverest AI. They are the ones that <b>grow their people as fast as the technology changes</b>: skills as currency, org as fluid, human judgement at the centre.</p>
+    <div style="margin-top:34px;display:flex;flex-wrap:wrap;gap:10px">
+      <span class="pill">📌 Skills are the new currency</span>
+      <span class="pill">🤖 Humans lead · AI executes</span>
+      <span class="pill">🧭 HR = the architect</span>
     </div>
-    <p style="margin-top:20px" id="summary">We're all set to host you tomorrow at SOIL.<br>Janak will follow up shortly with final details. See you at 10:00 AM!</p>
-    <a href="mailto:?subject=HR%20Day%20RSVP" style="color:var(--accent);font-weight:600;font-size:14.5px">Confirm by email &rarr;</a>
-  </div>
-
-  <footer>With respect &amp; a warm welcome — <b>Janak</b>, SOIL · Happy HR Day 2026</footer>
+    <p class="source"><b>Deck research:</b> WEF Future of Jobs 2025 · McKinsey "How AI is changing the future of work" · IBM Institute for Business Value · PwC Global Workforce Survey.</p>
+    <p class="foot-tag">HR Day 2026 · The Future of Work · Questions welcome</p>
+  </section>
 </div>
 
 <script>
-  const opts=document.querySelectorAll('.option');
-  let travel=null, deck=null;
-  opts.forEach(o=>{
-    o.addEventListener('click',()=>{
-      const grp=o.dataset.val.startsWith('ppt')?'deck':'travel';
-      const val=grp==='travel'?'cab':'ppt-yes';
-      const key=grp==='travel'?'travel':'deck';
-      // clear siblings in same group
-      document.querySelectorAll('.option').forEach(x=>{
-        const xgrp=x.dataset.val.startsWith('ppt')?'deck':'travel';
-        if(xgrp===grp)x.classList.remove('selected');
+  const slides=[...document.querySelectorAll('.slide')];
+  const dots=document.getElementById('dots');
+  let i=0;
+  slides.forEach((_,n)=>{
+    const b=document.createElement('button');
+    b.addEventListener('click',e=>{e.stopPropagation();go(n);});
+    dots.appendChild(b);
+  });
+  const dotBtns=[...dots.querySelectorAll('button')];
+  const prog=document.getElementById('prog');
+  const counter=document.getElementById('counter');
+
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    dotBtns.forEach((d,k)=>d.classList.toggle('active',k===i));
+    prog.style.setProperty('--p',((i+1)/slides.length*100)+'%');
+    counter.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+    // animate bars
+    if(i!==undefined)requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      slides[i].querySelectorAll('.bar > i').forEach(b=>b.style.width=b.dataset.w+'%');
+    }));
+  }
+  function next(){go(i+1)} function prev(){go(i-1)}
+
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight',' ', 'PageDown','Enter','ArrowDown'].includes(e.key)){e.preventDefault();next();}
+    else if(['ArrowLeft','PageUp','ArrowUp'].includes(e.key)){e.preventDefault();prev();}
+    else if(e.key==='Home'){e.preventDefault();go(0);}
+    else if(e.key==='End'){e.preventDefault();go(slides.length-1);}
+    else if(e.key==='Escape'){go(0);}
+  });
+
+  const deck=document.getElementById('deck');
+  deck.addEventListener('click',e=>{
+    // don't advance when interacting with quiz options or non-empty area handled by card/button
+    if(e.target.closest('button')&&!e.target.closest('.opt'))next();
+    if(e.target.closest('.opt')||e.target.closest('.opt*'))return;
+    if(!e.target.closest('.cardo')||e.target===deck){} else if(!e.target.closest('.quiz')){}
+    // advance unless clicking an interactive control
+    if(e.target.closest('.cardo')||e.target.closest('.panel')||e.target.closest('.myth-grid'))return;
+    if(!e.target.closest('.quiz'))next();
+  });
+
+  // quiz logic
+  document.querySelectorAll('.quiz').forEach(q=>{
+    const reveal=q.querySelector('.reveal');
+    q.querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.stopPropagation();
+        const already=btn.classList.contains('correct')||btn.classList.contains('wrong');
+        if(already)return;
+        q.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+        if(btn.dataset.correct!==undefined){btn.classList.add('correct');reveal.innerHTML='<b>That&apos;s right.</b> Technological change — AI &amp; information processing — is projected to affect <b>86% of businesses</b> by 2030 (WEF). It heads the list of job-shaping drivers.';}
+        else{btn.classList.add('wrong');const right=[...q.querySelectorAll('.opt')].find(b=>b.dataset.correct!==undefined);right.classList.add('correct');reveal.innerHTML='<b>Not quite.</b> It&apos;s technological change — AI &amp; information processing, projected to touch <b>86% of businesses</b> by 2030 (WEF).';}
+        setTimeout(()=>{ reveal.scrollIntoView({behavior:'smooth',block:'center'}); },120);
       });
-      o.classList.add('selected');
-      if(grp==='travel'){travel=o.dataset.val==='cab'?'Cab arranged':'Self-drive (reimbursed)';}
-      else{deck=o.dataset.val==='ppt-yes'?'Will share PPT beforehand':'Live / no deck';}
-      updateBtn();
     });
   });
-  function updateBtn(){
-    const btn=document.getElementById('confirmBtn');
-    if(travel&&deck){btn.classList.add('enabled');btn.disabled=false;}
-  }
-  document.getElementById('confirmBtn').addEventListener('click',()=>{
-    const s=document.getElementById('summary');
-    s.innerHTML=`We're all set to host you tomorrow at SOIL.<br><b>${travel}</b> · <b>${deck}</b><br>Janak will follow up shortly with final details. See you at <b>10:00 AM</b>!`;
-    document.getElementById('success').classList.add('show');
-    document.getElementById('confirmBtn').disabled=true;
-    document.getElementById('confirmBtn').style.display='none';
-    document.querySelector('.success').scrollIntoView({behavior:'smooth'});
-  });
-  // live countdown to tomorrow 10:00 AM
-  (function(){
-    const target=new Date();target.setHours(10,0,0,0);target.setDate(target.getDate()+1);
-    const upd=()=>{
-      const diff=Math.max(0,target-new Date());
-      const d=Math.floor(diff/864e5),h=Math.floor(diff/36e5)%24,m=Math.floor(diff/6e4)%60;
-      document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
-      document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
-      document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
-    };
-    upd();setInterval(upd,1000);
-  })();
+
+  go(0);
 </script>
 </body>
 </html>
