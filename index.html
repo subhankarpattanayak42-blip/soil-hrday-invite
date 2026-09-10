@@ -124,6 +124,17 @@
   .act-title{font-size:clamp(30px,5vw,56px);font-weight:800;max-width:14em;line-height:1.08;margin:8px 0 14px}
   .act-sub{color:var(--muted);font-size:18px;max-width:30em}
 
+  /* references cards */
+  .pacing{display:grid;gap:12px}
+  .p-row{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:start;
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;text-align:left}
+  .p-row .t{font-weight:800;font-size:15px;color:var(--ai);padding-top:2px}
+  .p-row .d{font-size:14px;line-height:1.5;word-break:break-word}
+  .p-row .d a{text-decoration:none}
+  .p-row .d a:hover{text-decoration:underline}
+  .p-row .m{font-variant-numeric:tabular-nums;font-weight:700;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding-top:2px;white-space:nowrap}
+  @media(max-width:640px){.p-row{grid-template-columns:36px 1fr}.p-row .m{display:none}}
+
   
 
   .brandlogo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
@@ -188,12 +199,12 @@
   </section>
 
   <section class="slide">
-    <div class="kicker">The adoption curve · 2026</div>
+    <div class="kicker">The adoption gap · 2026</div>
     <div class="stat-hero">
-      <div class="n">91% <span class="rose" style="font-size:.65em">vs</span> 21%</div>
+      <div class="n">9 in 10 <span class="rose" style="font-size:.55em">vs</span> 1 in 5</div>
     </div>
-    <p class="lede"><b>91% of organisations say they use AI</b> — but only <b>21% of workers actually use it at work</b>. That gap between what companies claim and what happens day-to-day is the defining challenge of 2026, and it's where most AI value is leaking away.</p>
-    <p class="source" style="margin-top:18px"><b>Sources:</b> McKinsey 2026 · PwC 2026 AI Jobs Barometer</p>
+    <p class="lede">Nearly <b>9 in 10 organisations report using AI in at least one function</b> (McKinsey) — yet only about <b>1 in 5 U.S. workers say any of their work is actually done with AI</b> (Pew, Sept 2025, up from 16%). What companies deploy and what people do at their desk are two very different numbers.</p>
+    <p class="source" style="margin-top:18px"><b>Sources:</b> [1] McKinsey, State of AI in 2026 · [2] Pew Research Center, Sept 2025</p>
   </section>
 
   <section class="slide">
@@ -202,8 +213,8 @@
       <div class="n">Up to 30%</div>
       <div class="l">of current <b>work hours</b> could be automated by 2030 (McKinsey).</div>
     </div>
-    <p class="lede" style="margin-top:26px">And AI &amp; information processing will affect <b>86% of businesses</b> by 2030 (WEF). The payoff is real too — the most AI-exposed companies now show <b>40% higher productivity growth</b> than the least (PwC 2026). It's mostly <b>tasks</b> being automated, not whole <b>jobs</b> vanishing — but that still redefines nearly every role.</p>
-    <p class="source"><b>Sources:</b> McKinsey on automation · WEF Future of Jobs 2025 · PwC 2026 AI Jobs Barometer</p>
+    <p class="lede" style="margin-top:26px">And AI &amp; information processing will affect <b>86% of businesses</b> by 2030 (WEF). The payoff is real too — the most AI-exposed companies now show <b>40% higher productivity growth</b> than the least (PwC). It's mostly <b>tasks</b> being automated, not whole <b>jobs</b> vanishing — but that still redefines nearly every role.</p>
+    <p class="source"><b>Sources:</b> [4] WEF Future of Jobs 2025 · [3] PwC 2026 AI Jobs Barometer · McKinsey on automation</p>
   </section>
 
   <section class="slide">
@@ -220,7 +231,7 @@
       </ul></div>
     </div>
     <p class="lede" style="margin-top:18px">PwC finds the new tasks added to AI-exposed roles are <b>2.5× more likely to rely on empathy, judgement and creativity</b> — the very skills that grow more valuable as AI absorbs routine work.</p>
-    <p class="source"><b>Frame:</b> "Human-led, AI-enabled" teams — the productivity gains come from orchestration (see also PwC 2026 AI Jobs Barometer).</p>
+    <p class="source"><b>Frame:</b> "Human-led, AI-enabled" teams — the productivity gains come from orchestration (see [3] PwC 2026 AI Jobs Barometer).</p>
   </section>
 
   <!-- ============ ACT 2 · AI ============ -->
@@ -234,7 +245,7 @@
   <section class="slide">
     <div class="kicker">From tool to teammate</div>
     <h2>AI is moving up the capability ladder</h2>
-    <p class="lede">It began as a <b>calculator</b> (you do the work), then a <b>copilot</b> (it drafts, you refine). The next step is an <b>agent</b> — a helper with "hands" that plans and acts on your behalf. <b>~79% of companies are already adopting AI agents in some form</b> (PwC 2026), and over half of talent leaders plan to add autonomous AI agents to their teams this year (Korn Ferry).</p>
+    <p class="lede">It began as a <b>calculator</b> (you do the work), then a <b>copilot</b> (it drafts, you refine). The next step is an <b>agent</b> — a helper with "hands" that plans and acts on your behalf. Agentic AI is scaling fast: <b>40% of large-enterprise respondents now report scaling AI agents</b>, up from 27% a year earlier (McKinsey, State of AI 2026).</p>
     <div class="cards" style="margin-top:26px">
       <div class="cardo"><div class="n human" style="font-size:20px">Assistant</div><h4 style="font-size:14px">You ask · it answers</h4><p>Search, summarise, generate — output on demand. The human is fully in the loop.</p></div>
       <div class="cardo"><div class="n grad" style="font-size:20px">Copilot</div><h4 style="font-size:14px">You guide · it drafts</h4><p>AI proposes, human decides. The dominant pattern of 2024–25 talent workflows.</p></div>
@@ -274,7 +285,7 @@
       <div class="l">of core skills are expected to <b>change by 2030</b>.</div>
     </div>
     <p class="lede">Survey of <b>1,000+ employers</b> representing <b>14M+ workers</b> across 22 industries and 55 economies. The headline: skills are now the <b>currency of resilience</b> — the organisations that grow people outperform those that only buy technology.</p>
-    <p class="source"><b>Source:</b> World Economic Forum, Future of Jobs Report 2025</p>
+    <p class="source"><b>Source:</b> [4] World Economic Forum, Future of Jobs Report 2025</p>
   </section>
 
   <section class="slide">
@@ -300,7 +311,7 @@
       <div class="lb"><span>Resilience, flexibility &amp; agility</span><span class="pc human">#5</span></div>
       <div class="bar"><i data-w="54" style="background:linear-gradient(90deg,var(--human),var(--ai))"></i></div>
     </div>
-    <p class="source"><b>Source:</b> WEF Future of Jobs Report 2025 — share of employers citing each skill as rising.</p>
+    <p class="source"><b>Source:</b> [4] WEF Future of Jobs Report 2025 — share of employers citing each skill as rising.</p>
   </section>
 
   <section class="slide">
@@ -322,13 +333,13 @@
 
   <section class="slide">
     <div class="kicker">The new currency · 2026</div>
-    <h2>AI skills now pay a real <span class="grad">premium</span></h2>
+    <h2>AI rewards <span class="grad">new judgement</span></h2>
     <div class="stat-hero">
-      <div class="n">62%</div>
-      <div class="l">higher wages for AI-skilled roles — <b>up to 118%</b> in some sectors (PwC 2026).</div>
+      <div class="n">42%</div>
+      <div class="l">faster wage growth for jobs <b>"professionalised" by AI</b> — growing 2× as fast as "democratised" jobs since 2021 (PwC).</div>
     </div>
-    <p class="lede" style="margin-top:24px">WEF now projects <b>59% of the global workforce (~120M workers) need reskilling by 2030</b>. Meanwhile, skills for the most AI-exposed jobs change more than <b>2× as fast</b> as for the least (PwC 2026). Skills truly are the new currency — they expire faster than job titles.</p>
-    <p class="source"><b>Sources:</b> PwC 2026 AI Jobs Barometer · WEF Future of Jobs Report 2025</p>
+    <p class="lede" style="margin-top:24px">WEF projects <b>59% of the global workforce — over 120M workers — need reskilling or upskilling by 2030</b>, with 11 points' share unlikely to receive it. And the skills for the most AI-exposed jobs change more than <b>2× as fast</b> as for the least exposed (PwC). Skills truly are the new currency — they expire faster than job titles.</p>
+    <p class="source"><b>Sources:</b> [3] PwC 2026 AI Jobs Barometer · [4] WEF Future of Jobs Report 2025 press release</p>
   </section>
 
   <!-- ============ ACT 4 · ORGANISATION ============ -->
@@ -406,11 +417,11 @@
     <h2 style="font-size:30px;margin-bottom:20px">Cut through the noise</h2>
     <div class="myth-grid">
       <div class="myth-card"><span class="tag m">Myth</span><h4>"AI will replace entire jobs in one go."</h4><p>Mostly <b>tasks</b> are automated; roles get redesigned task-by-task. The risk is refusing to change, not the tool itself.</p></div>
-      <div class="myth-card"><span class="tag t">Fact</span><h4>The adoption gap is the real problem.</h4><p><b>91% of companies say they use AI, but only 21% of workers actually do</b> (McKinsey 2026). Closing that gap beats buying more tech.</p></div>
-      <div class="myth-card"><span class="tag m">Myth</span><h4>"Soft skills don't matter in an AI era."</h4><p>Backwards — new tasks in AI-heavy roles are <b>2.5× more likely to need empathy, judgement &amp; creativity</b> (PwC 2026).</p></div>
-      <div class="myth-card"><span class="tag t">Fact</span><h4>"Buying AI is enough."</h4><p>AI underdelivers without <b>work redesign and reskilling</b>. Only ~6% of orgs are AI "high performers" that see real profit impact (McKinsey 2026).</p></div>
+      <div class="myth-card"><span class="tag t">Fact</span><h4>The adoption gap is the real problem.</h4><p><b>~9 in 10 organisations deploy AI, but only ~1 in 5 U.S. workers use it at work</b> ([1] McKinsey · [2] Pew). Closing that gap beats buying more tech.</p></div>
+      <div class="myth-card"><span class="tag m">Myth</span><h4>"Soft skills don't matter in an AI era."</h4><p>Backwards — new tasks in AI-heavy roles are <b>2.5× more likely to need empathy, judgement &amp; creativity</b> ([3] PwC).</p></div>
+      <div class="myth-card"><span class="tag t">Fact</span><h4>"Buying AI is enough."</h4><p>AI underdelivers without <b>work redesign and reskilling</b>. Only ~6% of orgs are AI "high performers" that see real profit impact ([1] McKinsey 2026).</p></div>
     </div>
-    <p class="source"><b>Sources:</b> McKinsey 2026 · WEF Future of Jobs 2025 · PwC 2026 AI Jobs Barometer.</p>
+    <p class="source"><b>Sources:</b> [1] McKinsey, State of AI 2026 · [2] Pew, Sept 2025 · [3] PwC 2026 AI Jobs Barometer</p>
   </section>
 
   <section class="slide">
@@ -423,6 +434,21 @@
       <div class="cardo"><div class="n grad">04</div><h4>Reskill deliberately</h4><p>Short-cycle, measurable, embedded in work — not a once-a-year training calendar.</p></div>
       <div class="cardo"><div class="n grad">05</div><h4>Keep humans central</h4><p>Accountability, empathy and purpose stay human. Design the org around that.</p></div>
     </div>
+  </section>
+
+  <!-- references / verification -->
+  <section class="slide">
+    <div class="kicker">For verification</div>
+    <h2 style="font-size:30px;margin-bottom:8px">References — every figure traces to a primary source</h2>
+    <p class="lede" style="font-size:14px;color:var(--muted);font-weight:700;margin:6px 0 18px">Each [n] on the previous slides maps to the direct URL below. All are the original publisher pages where the statistic appears.</p>
+    <div class="pacing" style="max-width:860px">
+      <div class="p-row"><div class="t">[1]</div><div class="d"><b>McKinsey — "The state of AI in 2026: On the road to ROI"</b><br><span class="human">State of AI 2026 · ~9 in 10 orgs use AI; 40% of large firms scaling agents; ~6% high performers</span><br><a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" style="color:var(--ai)">mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai</a></div><div class="m">adoption</div></div>
+      <div class="p-row"><div class="t">[2]</div><div class="d"><b>Pew Research Center — "About 1 in 5 U.S. workers now use AI in their job"</b><br><span class="human">Sept 2025 survey · 21% of U.S. workers (up from 16%)</span><br><a href="https://www.pewresearch.org/short-reads/2025/10/06/about-1-in-5-us-workers-now-use-ai-in-their-job-up-since-last-year" target="_blank" style="color:var(--ai)">pewresearch.org/short-reads/2025/10/06/about-1-in-5-us-workers-now-use-ai-in-their-job-up-since-last-year</a></div><div class="m">workers' use</div></div>
+      <div class="p-row"><div class="t">[3]</div><div class="d"><b>PwC — "2026 AI Jobs Barometer"</b><br><span class="human">40% higher productivity; 2× faster skills change; 42% professionalised-job wage growth; 7× junior-role leadership demand; 2.5× human-skill tasks</span><br><a href="https://www.pwc.com/gx/en/services/ai/ai-jobs-barometer.html" target="_blank" style="color:var(--ai)">pwc.com/gx/en/services/ai/ai-jobs-barometer.html</a></div><div class="m">skills &amp; pay</div></div>
+      <div class="p-row"><div class="t">[4]</div><div class="d"><b>World Economic Forum — "Future of Jobs Report 2025" + press release</b><br><span class="human">39% core skills change; 86% of businesses affected; 59% of workforce (120M+) need reskilling by 2030</span><br><a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025" target="_blank" style="color:var(--ai)">weforum.org/publications/the-future-of-jobs-report-2025</a> · <a href="https://www.weforum.org/press/2025/01/future-of-jobs-report-2025-78-million-new-job-opportunities-by-2030-but-urgent-upskilling-needed-to-prepare-workforces" target="_blank" style="color:var(--ai)">press release</a></div><div class="m">skills &amp; org</div></div>
+    </div>
+    <p class="source"><b>Note:</b> Earlier drafts cited aggregator blog figures (e.g. a "62% AI wage premium" and a "79% agent adoption" that do not appear in the primary reports). Those have been removed or replaced with the exact figures above, which are directly stated on the linked publisher pages.</p>
+    <p class="foot-tag">All figures verifiable · open any [n] link to check</p>
   </section>
 
   <!-- follow / newsletter CTA -->
@@ -459,7 +485,7 @@
       <span class="pill">🧭 HR = the architect</span>
       <span class="pill">📬 Subscribe on LinkedIn</span>
     </div>
-    <p class="source"><b>Deck research (2026 update):</b> WEF Future of Jobs 2025 · McKinsey State of AI &amp; State of Organizations 2026 · PwC 2026 AI Jobs Barometer · Microsoft 2026 Work Trend Index · Korn Ferry.</p>
+    <p class="source"><b>Deck research (2026 update):</b> [1] McKinsey State of AI 2026 · [2] Pew, Sept 2025 · [3] PwC 2026 AI Jobs Barometer · [4] WEF Future of Jobs 2025. Full URLs &amp; map on the References slide.</p>
     <p class="foot-tag">HR Day 2026 · Future of Work · Subhankar Pattanayak · Follow @SubhankarP</p>
   </section>
 </div>
