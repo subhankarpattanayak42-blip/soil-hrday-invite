@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Day — The Future of Work · Session Invite</title>
+<style>
+  :root{
+    --bg:#0d1021;
+    --bg2:#151a38;
+    --surface:rgba(255,255,255,.045);
+    --surface2:rgba(255,255,255,.07);
+    --border:rgba(255,255,255,.12);
+    --ink:#f4f5fb;
+    --muted:#a7adc8;
+    --accent:#5b8cff;
+    --accent2:#8b5bff;
+    --green:#3ddc97;
+    --amber:#ffb454;
+    --rose:#ff7b8a;
+    --radius:22px;
+    --shadow:0 30px 80px -30px rgba(0,0,0,.65);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1100px 600px at 12% -10%, rgba(91,140,255,.28), transparent 60%),
+      radial-gradient(900px 550px at 100% 0%, rgba(139,91,255,.24), transparent 55%),
+      radial-gradient(900px 700px at 50% 120%, rgba(45,212,191,.12), transparent 60%),
+      linear-gradient(160deg, var(--bg), var(--bg2));
+    min-height:100vh;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:56px 24px 80px}
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.04;mix-blend-mode:overlay;
+    background-image:radial-gradient(#fff 1px, transparent 1px);background-size:3px 3px;z-index:1}
+
+  /* top tag */
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);border:1px solid var(--border);
+    background:var(--surface);padding:7px 14px;border-radius:999px;font-weight:600;margin-bottom:22px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(61,220,151,.18)}
+
+  header{margin-bottom:40px}
+  h1{font-size:clamp(30px,5vw,48px);line-height:1.08;font-weight:800;letter-spacing:-.02em;max-width:16em}
+  h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .subhead{margin-top:16px;color:var(--muted);font-size:17px;max-width:34em}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;backdrop-filter:blur(8px);position:relative;overflow:hidden}
+  .card::after{content:"";position:absolute;inset:0;border-radius:inherit;
+    background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 40%);pointer-events:none}
+  .card h3{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:16px}
+  .meta-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .meta-row:last-of-type{border-bottom:none}
+  .k{color:var(--muted);font-size:13.5px;width:120px;flex:none}
+  .v{font-weight:600;font-size:15.5px}
+  .v small{display:block;color:var(--muted);font-weight:400;font-size:12.5px}
+  .icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;
+    background:linear-gradient(135deg,rgba(91,140,255,.25),rgba(139,91,255,.25));border:1px solid var(--border)}
+  .icon svg{width:19px;height:19px;stroke:var(--accent)}
+
+  /* RSVP selector */
+  .rsvp-label{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:30px 0 14px}
+  .rsvp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:560px){.rsvp{grid-template-columns:1fr}}
+  .option{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:22px;
+    cursor:pointer;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s;position:relative}
+  .option:hover{transform:translateY(-3px);border-color:rgba(91,140,255,.55)}
+  .option.selected{border-color:var(--accent);background:linear-gradient(150deg,rgba(91,140,255,.18),rgba(139,91,255,.14));box-shadow:0 0 0 3px rgba(91,140,255,.18)}
+  .option .radio{position:absolute;top:20px;right:20px;width:22px;height:22px;border-radius:50%;
+    border:2px solid var(--border);display:grid;place-items:center}
+  .option.selected .radio{border-color:var(--accent)}
+  .option.selected .radio::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--accent)}
+  .option .t{font-weight:700;font-size:16.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .option .d{color:var(--muted);font-size:13.5px}
+  .badge{font-size:11px;padding:3px 9px;border-radius:999px;background:rgba(61,220,151,.16);color:var(--green);font-weight:700;letter-spacing:.02em}
+
+  /* confirm button */
+  .confirm{width:100%;margin-top:26px;border:none;cursor:pointer;font-size:16.5px;font-weight:700;color:#0d1021;
+    padding:17px;border-radius:16px;font-family:inherit;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    box-shadow:0 14px 34px -10px rgba(91,140,255,.6);transition:transform .15s,filter .15s;
+    opacity:0;pointer-events:none;transform:translateY(8px)}
+  .confirm.enabled{opacity:1;pointer-events:auto;transform:none}
+  .confirm:hover{filter:brightness(1.06);transform:translateY(-2px)}
+  .confirm:active{transform:translateY(0)}
+  .confirm:disabled{opacity:.5;cursor:not-allowed}
+
+  /* success panel */
+  .success{display:none;text-align:center;padding:50px 30px;background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);margin-top:34px}
+  .success.show{display:block;animation:fadeUp .5s ease}
+  .check{width:70px;height:70px;border-radius:50%;margin:0 auto 20px;display:grid;place-items:center;
+    background:radial-gradient(circle,rgba(61,220,151,.3),rgba(61,220,151,.08));border:1.5px solid rgba(61,220,151,.5)}
+  .check svg{width:34px;height:34px;stroke:var(--green);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .success h2{font-size:26px;margin-bottom:10px}
+  .success p{color:var(--muted);max-width:40em;margin:0 auto 26px}
+
+  .countdown{display:flex;gap:14px;justify-content:center;margin-top:8px}
+  .cd{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:14px 18px;min-width:86px}
+  .cd b{font-size:28px;font-variant-numeric:tabular-nums;display:block;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cd span{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+  footer{margin-top:44px;text-align:center;color:var(--muted);font-size:13px}
+  footer b{color:var(--ink);font-weight:600}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(91,140,255,.35)}50%{box-shadow:0 0 0 12px rgba(91,140,255,0)}}
+  .session-tag{animation:pulse 2.4s infinite;background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#0d1021;font-weight:800;padding:9px 16px;border-radius:999px;font-size:14px;display:inline-flex;align-items:center;gap:8px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+
+  <span class="eyebrow"><span class="dot"></span> SOIL · HR Day 2026</span>
+
+  <header>
+    <span class="session-tag">📅 TOMORROW · 10:00–10:45 AM</span>
+    <h1 style="margin-top:18px">The Future of Work:<br><span class="grad">Skills, AI &amp; the New Organisation</span></h1>
+    <p class="subhead">Hi Misal Sir — we're delighted to have you with us as our guest speaker. A warmly-written invitation, ready for your RSVP below.</p>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Session Details</h3>
+      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div><span class="k">Date</span><div class="v">Tomorrow <small>HR Day 2026</small></div></div></div>
+      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><div><span class="k">Time</span><div class="v">10:00 – 10:45 AM <small>45 minutes</small></div></div></div>
+      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div><div><span class="k">Venue</span><div class="v">SOIL, Gurgaon <small>Campus · HR Day</small></div></div></div>
+      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div><span class="k">Format</span><div class="v">Guest Talk</div></div></div>
+    </div>
+
+    <div class="card">
+      <h3>Speaker · Misal Sir</h3>
+      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></div><div><span class="k">Role</span><div class="v">Guest Speaker</div></div></div>
+      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></div><div><span class="k">Hosted By</span><div class="v">Janak <small>Your Student SPOC</small></div></div></div>
+      <div class="meta-row"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7"/></svg></div><div><span class="k">Status</span><div class="v"><span class="badge">Confirming</span></div></div></div>
+      <div style="margin-top:18px;color:var(--muted);font-size:13.5px;border-left:3px solid var(--accent);padding:4px 0 4px 14px">
+        "Looking forward to hosting you and hearing your take on skills, AI and the new organisation."
+      </div>
+    </div>
+  </div>
+
+  <div class="rsvp-label">Travel &amp; Deck · how should we plan?</div>
+  <div class="rsvp">
+    <div class="option" data-val="cab">
+      <div class="radio"></div>
+      <div class="t">🚕 Arrange a cab</div>
+      <div class="d">We'll book and coordinate your pickup to campus — sit back and enjoy the ride.</div>
+    </div>
+    <div class="option" data-val="drive">
+      <div class="radio"></div>
+      <div class="t">🚗 I'll drive myself <span class="badge">Reimbursed</span></div>
+      <div class="d">You'll drive down on your own — we'll reimburse your travel. Just let us know.</div>
+    </div>
+  </div>
+
+  <div class="rsvp-label">Will you share your PPT beforehand?</div>
+  <div class="rsvp" style="grid-template-columns:1fr 1fr">
+    <div class="option" data-val="ppt-yes">
+      <div class="radio"></div>
+      <div class="t">📊 Yes, will share</div>
+      <div class="d">Great — we'll set it up before the session starts.</div>
+    </div>
+    <div class="option" data-val="ppt-no">
+      <div class="radio"></div>
+      <div class="t">🎤 No deck / live</div>
+      <div class="d">No problem — we'll arrange a mic and screen for a live session.</div>
+    </div>
+  </div>
+
+  <button class="confirm" id="confirmBtn">Send RSVP to Janak →</button>
+
+  <div class="success" id="success">
+    <div class="check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+    <h2>RSVP Received — thank you, Misal Sir!</h2>
+    <div class="countdown">
+      <div class="cd"><b id="cd-d">--</b><span>Days</span></div>
+      <div class="cd"><b id="cd-h">--</b><span>Hrs</span></div>
+      <div class="cd"><b id="cd-m">--</b><span>Min</span></div>
+    </div>
+    <p style="margin-top:20px" id="summary">We're all set to host you tomorrow at SOIL.<br>Janak will follow up shortly with final details. See you at 10:00 AM!</p>
+    <a href="mailto:?subject=HR%20Day%20RSVP" style="color:var(--accent);font-weight:600;font-size:14.5px">Confirm by email &rarr;</a>
+  </div>
+
+  <footer>With respect &amp; a warm welcome — <b>Janak</b>, SOIL · Happy HR Day 2026</footer>
+</div>
+
+<script>
+  const opts=document.querySelectorAll('.option');
+  let travel=null, deck=null;
+  opts.forEach(o=>{
+    o.addEventListener('click',()=>{
+      const grp=o.dataset.val.startsWith('ppt')?'deck':'travel';
+      const val=grp==='travel'?'cab':'ppt-yes';
+      const key=grp==='travel'?'travel':'deck';
+      // clear siblings in same group
+      document.querySelectorAll('.option').forEach(x=>{
+        const xgrp=x.dataset.val.startsWith('ppt')?'deck':'travel';
+        if(xgrp===grp)x.classList.remove('selected');
+      });
+      o.classList.add('selected');
+      if(grp==='travel'){travel=o.dataset.val==='cab'?'Cab arranged':'Self-drive (reimbursed)';}
+      else{deck=o.dataset.val==='ppt-yes'?'Will share PPT beforehand':'Live / no deck';}
+      updateBtn();
+    });
+  });
+  function updateBtn(){
+    const btn=document.getElementById('confirmBtn');
+    if(travel&&deck){btn.classList.add('enabled');btn.disabled=false;}
+  }
+  document.getElementById('confirmBtn').addEventListener('click',()=>{
+    const s=document.getElementById('summary');
+    s.innerHTML=`We're all set to host you tomorrow at SOIL.<br><b>${travel}</b> · <b>${deck}</b><br>Janak will follow up shortly with final details. See you at <b>10:00 AM</b>!`;
+    document.getElementById('success').classList.add('show');
+    document.getElementById('confirmBtn').disabled=true;
+    document.getElementById('confirmBtn').style.display='none';
+    document.querySelector('.success').scrollIntoView({behavior:'smooth'});
+  });
+  // live countdown to tomorrow 10:00 AM
+  (function(){
+    const target=new Date();target.setHours(10,0,0,0);target.setDate(target.getDate()+1);
+    const upd=()=>{
+      const diff=Math.max(0,target-new Date());
+      const d=Math.floor(diff/864e5),h=Math.floor(diff/36e5)%24,m=Math.floor(diff/6e4)%60;
+      document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
+      document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+      document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+    };
+    upd();setInterval(upd,1000);
+  })();
+</script>
+</body>
+</html>
